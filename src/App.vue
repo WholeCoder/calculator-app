@@ -103,13 +103,13 @@
 </template>
 
 <script>
-    import SelectUser from './components/SelectUser'
+    import Calculator from './components/Calculator'
     import {store} from './components/UserStore'
 
     export default {
         store,
         data: () => ({
-            currentView: SelectUser,
+            currentView: Calculator,
         }),
         components: {},
         watch: {
@@ -127,10 +127,10 @@
                 this.currentView = screen
             },
             logOut() {
-                if (this.currentView !== SelectUser) {
-                    this.goToNextScreen(SelectUser)
-                    this.$store.dispatch("deleteUser", {});
-                }
+                // if (this.currentView !== SelectUser) {
+                //     this.goToNextScreen(SelectUser)
+                //     this.$store.dispatch("deleteUser", {});
+                // }
                 // this.goToNextScreen(EnterWeightForm);
             }
         }
