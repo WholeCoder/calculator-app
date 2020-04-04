@@ -37,6 +37,13 @@
                                     <v-list-item-content>
                                         <v-list-item-title>
                                             <v-row no-gutters>
+                                                <v-col :cols="6">Enter Number:  </v-col>
+                                                <v-col :cols="6" >
+                                                <v-text-field
+                                                        v-model="numInDisplay"
+                                                class="right-input"/></v-col>
+                                            </v-row>
+                                            <v-row no-gutters>
                                                 <v-col :cols="4" align="center">
                                                     <v-btn @click="clickNumber(7)">7</v-btn>
                                                 </v-col>
@@ -61,13 +68,36 @@
                                             <v-row no-gutters>
 
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber()">1</v-btn>
+                                                    <v-btn @click="clickNumber(1)">1</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber()">2</v-btn>
+                                                    <v-btn @click="clickNumber(2)">2</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber()">3</v-btn>
+                                                    <v-btn @click="clickNumber(3)">3</v-btn>
+                                                </v-col>
+                                            </v-row>
+                                            <v-row no-gutters>
+
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickOperator('+')">+</v-btn>
+                                                </v-col>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickOperator('-')">-</v-btn>
+                                                </v-col>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickOperator('*')">*</v-btn>
+                                                </v-col>
+                                            </v-row>
+                                            <v-row no-gutters>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickOperator('/')">/</v-btn>
+                                                </v-col>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickOperator('.')">.</v-btn>
+                                                </v-col>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickEquals()">=</v-btn>
                                                 </v-col>
                                             </v-row>
                                         </v-list-item-title>
@@ -92,14 +122,68 @@
 <script>
     export default {
         name: "Calculator",
+        data() {
+            return {
+                firstNumber: 0,
+                secondNumber: 0,
+                operator: '',
+                decimalPressed: false,
+                decimalMultiplier: .1,
+                clickedNumber: false,
+                isSecondNumber: false,
+                numInDisplay: 0
+            }
+        },
         methods: {
             clickNumber(num) {
-                alert("number clicked!  " + num);
+                if (!this.decimalPressed) {
+                    this.numInDisplay = this.numInDisplay*10 + num;
+                } else {
+                    this.numInDisplay = this.numInDisplay + num*this.decimalMultiplier;
+                    this.decimalMultiplier /= 10;
+                }
+                if (!this.isSecondNumber) {
+                    this.firstNumber = this.numInDisplay;
+                } else {
+                    this.secondNumber = this.numInDisplay;
+                }
+                //alert("number clicked!  " + num);
+            },
+            clickEquals() {
+                // if (this.clickedNumber) {
+                    if (this.operator === '-') {
+                        this.numInDisplay = this.firstNumber - this.secondNumber;
+                    }else if (this.operator === '+') {
+                        this.numInDisplay = this.firstNumber + this.secondNumber;
+                    }else if (this.operator === '*') {
+                        this.numInDisplay = this.firstNumber * this.secondNumber;
+                    }else if (this.operator === '/') {
+                        this.numInDisplay = this.firstNumber / this.secondNumber;
+                    }
+                this.isSecondNumber = true;
+                this.firstNumber = this.numInDisplay;
+                    // alert("numInDisplay == " + this.numInDisplay);
+                    // this.clickedNumber = false;
+                // }
+            },
+            clickOperator(operator) {
+                this.operator = operator;
+                if (this.operator === '.') {
+                    this.decimalPressed = true;
+                } else {
+                    this.operator = operator;
+                    this.isSecondNumber = true;
+                    // this.clickNumber(this.numInDisplay);
+                    this.numInDisplay = 0;
+                }
+                // alert('clicked operator - ' + operator);
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .right-input >>> input {
+        text-align: right;
+    }
 </style>
