@@ -169,7 +169,6 @@
             },
             clickOperator(operator) {
                 this.operator = operator;
-                this.operator = operator;
                 this.isSecondNumber = true;
                 this.numInDisplay = 0;
                 this.decimalMultiplier = 0.1;
