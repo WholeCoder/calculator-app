@@ -162,6 +162,8 @@
                     }
                 this.isSecondNumber = true;
                 this.firstNumber = this.numInDisplay;
+                this.decimalMultiplier = 0.1;
+                this.decimalPressed = false;
                     // alert("numInDisplay == " + this.numInDisplay);
                     // this.clickedNumber = false;
                 // }
