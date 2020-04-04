@@ -137,6 +137,8 @@
         },
         methods: {
             setValue: function(value) {
+                // This function is called from the parent class to reset
+                // the calculator's values.
                 this.numInDisplay = this.firstNumber = this.secondNumber = value;
                 this.operator = '';
                 this.decimalPressed = false;
