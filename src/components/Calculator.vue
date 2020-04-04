@@ -130,12 +130,19 @@
                 operator: '',
                 decimalPressed: false,
                 decimalMultiplier: .1,
-                clickedNumber: false,
+                // clickedNumber: false,
                 isSecondNumber: false,
                 numInDisplay: 0
             }
         },
         methods: {
+            setValue: function(value) {
+                this.numInDisplay = this.firstNumber = this.secondNumber = value;
+                this.operator = '';
+                this.decimalPressed = false;
+                this.decimalMultiplier = .1;
+                this.isSecondNumber = false;
+            },
             clickNumber(num) {
                 if (!this.decimalPressed) {
                     this.numInDisplay = this.numInDisplay * 10 + num;

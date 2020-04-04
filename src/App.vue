@@ -71,7 +71,8 @@
                                         <div>
 
                                             <router-view></router-view>
-                                            <component :is="currentView" v-on:goToPosts="goToNextScreen"/>
+                                            <calculator  ref="childComponent"/>
+<!--                                            <component :is="currentView" v-on:goToPosts="goToNextScreen"/>-->
                                         </div>
                                     </transition>
                                 </v-card>
@@ -109,9 +110,11 @@
     export default {
         store,
         data: () => ({
-            currentView: Calculator,
+            // currentView: Calculator,
         }),
-        components: {},
+        components: {
+            Calculator
+        },
         watch: {
             // eslint-disable-next-line no-unused-vars
             '$route'(to, from) {
@@ -127,6 +130,7 @@
                 this.currentView = screen
             },
             logOut() {
+                this.$refs.childComponent.setValue(0);
                 // if (this.currentView !== SelectUser) {
                 //     this.goToNextScreen(SelectUser)
                 //     this.$store.dispatch("deleteUser", {});
