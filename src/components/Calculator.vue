@@ -37,11 +37,12 @@
                                     <v-list-item-content>
                                         <v-list-item-title>
                                             <v-row no-gutters>
-                                                <v-col :cols="6">Enter Number:  </v-col>
-                                                <v-col :cols="6" >
-                                                <v-text-field
-                                                        v-model="numInDisplay"
-                                                class="right-input"/></v-col>
+                                                <v-col :cols="6">Enter Number:</v-col>
+                                                <v-col :cols="6">
+                                                    <v-text-field
+                                                            v-model="numInDisplay"
+                                                            class="right-input"/>
+                                                </v-col>
                                             </v-row>
                                             <v-row no-gutters>
                                                 <v-col :cols="4" align="center">
@@ -137,9 +138,9 @@
         methods: {
             clickNumber(num) {
                 if (!this.decimalPressed) {
-                    this.numInDisplay = this.numInDisplay*10 + num;
+                    this.numInDisplay = this.numInDisplay * 10 + num;
                 } else {
-                    this.numInDisplay = this.numInDisplay + num*this.decimalMultiplier;
+                    this.numInDisplay = this.numInDisplay + num * this.decimalMultiplier;
                     this.decimalMultiplier /= 10;
                 }
                 if (!this.isSecondNumber) {
@@ -147,26 +148,21 @@
                 } else {
                     this.secondNumber = this.numInDisplay;
                 }
-                //alert("number clicked!  " + num);
             },
             clickEquals() {
-                // if (this.clickedNumber) {
-                    if (this.operator === '-') {
-                        this.numInDisplay = this.firstNumber - this.secondNumber;
-                    }else if (this.operator === '+') {
-                        this.numInDisplay = this.firstNumber + this.secondNumber;
-                    }else if (this.operator === '*') {
-                        this.numInDisplay = this.firstNumber * this.secondNumber;
-                    }else if (this.operator === '/') {
-                        this.numInDisplay = this.firstNumber / this.secondNumber;
-                    }
+                if (this.operator === '-') {
+                    this.numInDisplay = this.firstNumber - this.secondNumber;
+                } else if (this.operator === '+') {
+                    this.numInDisplay = this.firstNumber + this.secondNumber;
+                } else if (this.operator === '*') {
+                    this.numInDisplay = this.firstNumber * this.secondNumber;
+                } else if (this.operator === '/') {
+                    this.numInDisplay = this.firstNumber / this.secondNumber;
+                }
                 this.isSecondNumber = true;
                 this.firstNumber = this.numInDisplay;
                 this.decimalMultiplier = 0.1;
                 this.decimalPressed = false;
-                    // alert("numInDisplay == " + this.numInDisplay);
-                    // this.clickedNumber = false;
-                // }
             },
             clickOperator(operator) {
                 this.operator = operator;
@@ -175,10 +171,8 @@
                 } else {
                     this.operator = operator;
                     this.isSecondNumber = true;
-                    // this.clickNumber(this.numInDisplay);
                     this.numInDisplay = 0;
                 }
-                // alert('clicked operator - ' + operator);
             }
         }
     }
