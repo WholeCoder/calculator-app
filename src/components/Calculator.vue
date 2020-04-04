@@ -95,7 +95,7 @@
                                                     <v-btn @click="clickOperator('/')">/</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickOperator('.')">.</v-btn>
+                                                    <v-btn @click="clickDecimal()">.</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
                                                     <v-btn @click="clickEquals()">=</v-btn>
@@ -164,15 +164,16 @@
                 this.decimalMultiplier = 0.1;
                 this.decimalPressed = false;
             },
+            clickDecimal() {
+                this.decimalPressed = true;
+            },
             clickOperator(operator) {
                 this.operator = operator;
-                if (this.operator === '.') {
-                    this.decimalPressed = true;
-                } else {
-                    this.operator = operator;
-                    this.isSecondNumber = true;
-                    this.numInDisplay = 0;
-                }
+                this.operator = operator;
+                this.isSecondNumber = true;
+                this.numInDisplay = 0;
+                this.decimalMultiplier = 0.1;
+                this.decimalPressed = false;
             }
         }
     }
