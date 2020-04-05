@@ -101,6 +101,17 @@
                                                     <v-btn @click="clickEquals()">=</v-btn>
                                                 </v-col>
                                             </v-row>
+                                            <v-row no-gutters>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickNumber(0)">0</v-btn>
+                                                </v-col>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickNegateNumberInDisplay()">(-)</v-btn>
+                                                </v-col>
+                                                <v-col :cols="4" align="center">
+                                                    <v-btn @click="clickBack()">&lt;-</v-btn>
+                                                </v-col>
+                                            </v-row>
                                         </v-list-item-title>
 
                                     </v-list-item-content>
@@ -130,7 +141,6 @@
                 operator: '',
                 decimalPressed: false,
                 decimalMultiplier: .1,
-                // clickedNumber: false,
                 isSecondNumber: false,
                 numInDisplay: 0
             }
@@ -144,6 +154,38 @@
                 this.decimalPressed = false;
                 this.decimalMultiplier = .1;
                 this.isSecondNumber = false;
+            },
+            clickNegateNumberInDisplay() {
+              this.numInDisplay = -this.numInDisplay;
+            },
+            clickBack() {
+                if (this.decimalPressed){
+                    this.decimalMultiplier *= 10;
+                    alert("decimal pressed = "+this.decimalMultiplier);
+                }
+                function removeLastDigit(num) {
+                    let numAsString = num.toString();
+                    alert("num = "+num);
+                    let indexOfDecimal = numAsString.indexOf(".");
+                    if (indexOfDecimal > -1) {
+
+                        numAsString = numAsString.substr(0,numAsString.length-1);
+                    } else {
+                        numAsString = numAsString.substr(0,numAsString.length-1);
+
+                    }
+                    if(numAsString.indexOf(".") === numAsString.length-1) {
+                        numAsString = numAsString.substr(0,numAsString.length-1);
+
+                    }
+                    if (numAsString === '') {
+                        numAsString = 0;
+                    }
+                    alert("after == " + numAsString);
+                    return numAsString;
+                }
+              this.numInDisplay = parseFloat(removeLastDigit(this.numInDisplay),10);
+                // alert('numInDisplay second = '+this.numInDisplay);
             },
             clickNumber(num) {
                 if (!this.decimalPressed) {
