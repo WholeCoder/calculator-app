@@ -130,7 +130,7 @@
                 this.currentView = screen
             },
             logOut() {
-                this.$refs.childComponent.setValue(0);
+                this.$refs.childComponent.setValue("0");
                 // if (this.currentView !== SelectUser) {
                 //     this.goToNextScreen(SelectUser)
                 //     this.$store.dispatch("deleteUser", {});
