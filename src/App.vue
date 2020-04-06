@@ -105,10 +105,8 @@
 
 <script>
     import Calculator from './components/Calculator'
-    import {store} from './components/UserStore'
 
     export default {
-        store,
         data: () => ({
             // currentView: Calculator,
         }),
