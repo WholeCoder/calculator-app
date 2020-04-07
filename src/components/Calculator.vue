@@ -132,6 +132,7 @@
 </template>
 
 <script>
+    'use strict';
     export default {
         name: "Calculator",
         data() {
@@ -142,7 +143,8 @@
                 decimalPressed: false,
                 decimalMultiplier: .1,
                 isSecondNumber: false,
-                numInDisplay: 0
+                numInDisplay: 0,
+                eInNumInDisplay: false
             }
         },
         methods: {
@@ -166,12 +168,12 @@
                 // }
                 let there = this;
                 function removeLastDigit(num) {
-                    let numAsString = num;
+                    let numAsString = num.toString();
                     // alert("num = "+num);
                     let indexOfDecimal = numAsString.indexOf(".");
                     if (indexOfDecimal > -1) {
 
-                        numAsString = numAsString.substr(0,numAsString.length-1);
+                        numAsString = numAsString.substr(0,numAsString.length-2);
                     } else {
                         numAsString = numAsString.substr(0,numAsString.length-1);
 
@@ -182,7 +184,14 @@
                         there.decimalPressed = false;
                         there.decimalMultiplier = .1;
                     } else {
-                        there.decimalMultiplier  *= 10;
+                        if (numAsString.endsWith("+")) {
+                            numAsString = numAsString.substr(0, numAsString-2);
+                        } else {
+                            there.decimalMultiplier *= 10;
+                        }
+                        if (numAsString.indexOf("e")> -1) {
+                            there.eInNumInDisplay = true;
+                        }
                     }
                     if (numAsString === '') {
                         numAsString = "0";
@@ -191,24 +200,43 @@
                     return numAsString;
                 }
               this.numInDisplay = removeLastDigit(this.numInDisplay);
+                if (!this.isSecondNumber) {
+                    this.firstNumber = parseFloat(this.numInDisplay);
+                } else {
+                    this.secondNumber = parseFloat(this.numInDisplay);
+                }
                 // alert('numInDisplay second = '+this.numInDisplay);
             },
             clickNumber(num) {
                 if (!this.decimalPressed) {
                     this.numInDisplay = (parseFloat(this.numInDisplay) * 10 + num).toString();
+
+                    if(this.numInDisplay.toString().indexOf("e")>-1) {
+                        this.eInNumInDisplay = true;
+
+                    }
                 } else {
-                    let number = parseFloat(this.numInDisplay) + num * this.decimalMultiplier;
-                    if (number === parseFloat(this.numInDisplay)){
-                        this.numInDisplay = this.numInDisplay + '0';
+                    if(this.numInDisplay.toString().indexOf("e")>-1) {
+                        this.numInDisplay += this.numInDisplay.toString() + num;
+                        this.eInNumInDisplay = true;
+                        // alert('found e');
                     } else {
-                        this.numInDisplay = (number).toString();
+
+                        let number = parseFloat(this.numInDisplay) + num * this.decimalMultiplier;
+                        if (number === parseFloat(this.numInDisplay)) {
+                            this.numInDisplay = this.numInDisplay + '0';
+                        } else {
+                            this.numInDisplay = (number).toString();
+                        }
                     }
                     this.decimalMultiplier /= 10;
                 }
                 if (!this.isSecondNumber) {
                     this.firstNumber = parseFloat(this.numInDisplay);
+                    alert('setting firstNumber == ' + this.firstNumber);
                 } else {
                     this.secondNumber = parseFloat(this.numInDisplay);
+                    alert('setting secondNumber == '+ this.secondNumber);
                 }
             },
         clickEquals(){
@@ -221,7 +249,7 @@
                 } else if (this.operator === '/') {
                     this.numInDisplay = (this.firstNumber / this.secondNumber).toString();
                 }
-                this.isSecondNumber = true;
+                this.isSecondNumber = false;
                 this.firstNumber = parseFloat(this.numInDisplay);
                 if (this.numInDisplay.indexOf(".")>0) {
                     let countOfDigits = this.numInDisplay.split(".")[1].length;
@@ -230,6 +258,12 @@
                     this.decimalPressed = true;
                 } else {
                     this.decimalPressed = false;
+                }
+
+                if (!this.isSecondNumber) {
+                    this.firstNumber = parseFloat(this.numInDisplay);
+                } else {
+                    this.secondNumber = parseFloat(this.numInDisplay);
                 }
             },
             clickDecimal() {
