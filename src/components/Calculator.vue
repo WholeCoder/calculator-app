@@ -46,36 +46,36 @@
                                             </v-row>
                                             <v-row no-gutters>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(7)">7</v-btn>
+                                                    <v-btn @click="clickNumber('7')">7</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(8)">8</v-btn>
+                                                    <v-btn @click="clickNumber('8')">8</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(9)">9</v-btn>
+                                                    <v-btn @click="clickNumber('9')">9</v-btn>
                                                 </v-col>
                                             </v-row>
                                             <v-row no-gutters>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(4)">4</v-btn>
+                                                    <v-btn @click="clickNumber('4')">4</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(5)">5</v-btn>
+                                                    <v-btn @click="clickNumber('5')">5</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(6)">6</v-btn>
+                                                    <v-btn @click="clickNumber('6')">6</v-btn>
                                                 </v-col>
                                             </v-row>
                                             <v-row no-gutters>
 
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(1)">1</v-btn>
+                                                    <v-btn @click="clickNumber('1')">1</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(2)">2</v-btn>
+                                                    <v-btn @click="clickNumber('2')">2</v-btn>
                                                 </v-col>
                                                 <v-col :cols="4" align="center">
-                                                    <v-btn @click="clickNumber(3)">3</v-btn>
+                                                    <v-btn @click="clickNumber('3')">3</v-btn>
                                                 </v-col>
                                             </v-row>
                                             <v-row no-gutters>
@@ -132,7 +132,6 @@
 </template>
 
 <script>
-    'use strict';
     export default {
         name: "Calculator",
         data() {
@@ -143,7 +142,7 @@
                 decimalPressed: false,
                 decimalMultiplier: .1,
                 isSecondNumber: false,
-                numInDisplay: 0,
+                numInDisplay: "0",
                 eInNumInDisplay: false
             }
         },
@@ -166,6 +165,26 @@
                 //     this.decimalMultiplier *= 10;
                 //     alert("decimal pressed = "+this.decimalMultiplier);
                 // }
+                const rex = /(?<integerportion>[0-9]+)e?(?<epart>[-+])?(?<decimalpoint>\.)?(?<decimalorexponent>[0-9]+)?/i
+                const mtch = rex.exec(this.numInDisplay);
+                if ( mtch.groups['decimalpoint'] === '.') {
+                    if(this.numInDisplay.indexOf('.') === this.numInDisplay.length - 1) {
+                        this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
+                        this.decimalPressed = false;
+                    } else if (this.numInDisplay.indexOf('.') === this.numInDisplay.length-2) {
+                        this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-2);
+                        this.decimalPressed = false;
+                    } else {// normal deletion
+                        this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
+                    }
+                } else if (mtch.groups['epart'] !== undefined) {
+                    alert("implement scientific notation!");
+                } else if (this.numInDisplay !== '0') {// normal deletion
+                    this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
+                }
+                // eslint-disable-next-line no-constant-condition
+                if (true) return;
+
                 let there = this;
                 function removeLastDigit(num) {
                     let numAsString = num.toString();
@@ -208,6 +227,16 @@
                 // alert('numInDisplay second = '+this.numInDisplay);
             },
             clickNumber(num) {
+                if (this.numInDisplay === '0') {
+                    this.numInDisplay = num;
+                } else {
+                    this.numInDisplay += num;
+                }
+                // alert("clicked a number!");
+                // eslint-disable-next-line no-constant-condition
+                if (true) return;
+
+
                 if (!this.decimalPressed) {
                     this.numInDisplay = (parseFloat(this.numInDisplay) * 10 + num).toString();
 
@@ -233,10 +262,10 @@
                 }
                 if (!this.isSecondNumber) {
                     this.firstNumber = parseFloat(this.numInDisplay);
-                    alert('setting firstNumber == ' + this.firstNumber);
+                    // alert('setting firstNumber == ' + this.firstNumber);
                 } else {
                     this.secondNumber = parseFloat(this.numInDisplay);
-                    alert('setting secondNumber == '+ this.secondNumber);
+                    // alert('setting secondNumber == '+ this.secondNumber);
                 }
             },
         clickEquals(){
@@ -254,7 +283,7 @@
                 if (this.numInDisplay.indexOf(".")>0) {
                     let countOfDigits = this.numInDisplay.split(".")[1].length;
                     this.decimalMultiplier = 1.0 / Math.pow(10, countOfDigits+1);
-                    alert("countOfDigits == "+countOfDigits);
+                    // alert("countOfDigits == "+countOfDigits);
                     this.decimalPressed = true;
                 } else {
                     this.decimalPressed = false;
@@ -267,7 +296,14 @@
                 }
             },
             clickDecimal() {
-                this.decimalPressed = true;
+                const rex = /(?<integerportion>[0-9]+)e?(?<epart>[-+])?(?<decimalpoint>\.)?(?<decimalorexponent>[0-9]+)?/i
+                const mtch = rex.exec(this.numInDisplay);
+
+                if (mtch.groups['decimalpoint'] !== '.') {
+                    this.numInDisplay += '.';
+                    this.decimalPressed = true;
+                }
+
             },
             clickOperator(operator) {
                 this.operator = operator;
