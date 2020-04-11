@@ -189,7 +189,7 @@
                 }
             },
             clickNumber(num) {
-                if (this.numInDisplay === '0') {
+                if (this.numInDisplay === "0") {
                     this.numInDisplay = num;
                 } else {
                     this.numInDisplay += num;
