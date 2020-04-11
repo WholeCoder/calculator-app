@@ -163,7 +163,7 @@
             clickBack() {
                 const rex = /(?<integerportion>[0-9]+)e?(?<epart>[-+])?(?<decimalpoint>\.)?(?<decimalorexponent>[0-9]+)?/i
                 const mtch = rex.exec(this.numInDisplay);
-                if (this.numInDisplay.trim() === '') {
+                if (this.numInDisplay.trim() === "") {
                     this.numInDisplay = "0";
                 } else if (mtch.groups['decimalpoint'] === '.') {
                     if (this.numInDisplay.indexOf('.') === this.numInDisplay.length - 1) {
@@ -171,7 +171,7 @@
                         this.decimalPressed = false;
                     } else if (this.numInDisplay.indexOf('.') === this.numInDisplay.length - 2) {
                         this.numInDisplay = this.numInDisplay.substring(0, this.numInDisplay.length - 2);
-                        if (this.numInDisplay.trim() === '') {
+                        if (this.numInDisplay.trim() === "") {
                             this.numInDisplay = "0";
                         }
                         this.decimalPressed = false;
@@ -183,6 +183,12 @@
                 } else if (this.numInDisplay !== '0') {// normal deletion
                     this.numInDisplay = this.numInDisplay.substring(0, this.numInDisplay.length - 1);
                 }
+
+                if (this.numInDisplay.trim() === "") {
+                    this.numInDisplay = '0';
+                    alert("1.  setting numindsplay to 0 == " + this.numInDisplay);
+                }
+                alert("2.  setting numindsplay to 0 == " + this.numInDisplay);
             },
             clickNumber(num) {
                 if (this.numInDisplay === '0') {
