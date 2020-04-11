@@ -167,12 +167,17 @@
                 // }
                 const rex = /(?<integerportion>[0-9]+)e?(?<epart>[-+])?(?<decimalpoint>\.)?(?<decimalorexponent>[0-9]+)?/i
                 const mtch = rex.exec(this.numInDisplay);
-                if ( mtch.groups['decimalpoint'] === '.') {
+                if (this.numInDisplay.trim() === '') {
+                    this.numInDisplay = "0";
+                } else if ( mtch.groups['decimalpoint'] === '.') {
                     if(this.numInDisplay.indexOf('.') === this.numInDisplay.length - 1) {
                         this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
                         this.decimalPressed = false;
                     } else if (this.numInDisplay.indexOf('.') === this.numInDisplay.length-2) {
                         this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-2);
+                        if (this.numInDisplay.trim() === '' ) {
+                            this.numInDisplay = "0";
+                        }
                         this.decimalPressed = false;
                     } else {// normal deletion
                         this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
@@ -233,6 +238,13 @@
                     this.numInDisplay += num;
                 }
                 // alert("clicked a number!");
+                if (!this.isSecondNumber) {
+                    this.firstNumber = parseFloat(this.numInDisplay);
+                    // alert('setting firstNumber == ' + this.firstNumber);
+                } else {
+                    this.secondNumber = parseFloat(this.numInDisplay);
+                    // alert('setting secondNumber == '+ this.secondNumber);
+                }
                 // eslint-disable-next-line no-constant-condition
                 if (true) return;
 
