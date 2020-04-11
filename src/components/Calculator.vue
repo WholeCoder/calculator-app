@@ -147,7 +147,7 @@
             }
         },
         methods: {
-            setValue: function(value) {
+            setValue: function (value) {
                 // This function is called from the parent class to reset
                 // the calculator's values.
                 this.numInDisplay = value;
@@ -158,78 +158,31 @@
                 this.isSecondNumber = false;
             },
             clickNegateNumberInDisplay() {
-              this.numInDisplay = "-" + this.numInDisplay;
+                this.numInDisplay = "-" + this.numInDisplay;
             },
             clickBack() {
-                // if (this.decimalPressed){
-                //     this.decimalMultiplier *= 10;
-                //     alert("decimal pressed = "+this.decimalMultiplier);
-                // }
                 const rex = /(?<integerportion>[0-9]+)e?(?<epart>[-+])?(?<decimalpoint>\.)?(?<decimalorexponent>[0-9]+)?/i
                 const mtch = rex.exec(this.numInDisplay);
                 if (this.numInDisplay.trim() === '') {
                     this.numInDisplay = "0";
-                } else if ( mtch.groups['decimalpoint'] === '.') {
-                    if(this.numInDisplay.indexOf('.') === this.numInDisplay.length - 1) {
-                        this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
+                } else if (mtch.groups['decimalpoint'] === '.') {
+                    if (this.numInDisplay.indexOf('.') === this.numInDisplay.length - 1) {
+                        this.numInDisplay = this.numInDisplay.substring(0, this.numInDisplay.length - 1);
                         this.decimalPressed = false;
-                    } else if (this.numInDisplay.indexOf('.') === this.numInDisplay.length-2) {
-                        this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-2);
-                        if (this.numInDisplay.trim() === '' ) {
+                    } else if (this.numInDisplay.indexOf('.') === this.numInDisplay.length - 2) {
+                        this.numInDisplay = this.numInDisplay.substring(0, this.numInDisplay.length - 2);
+                        if (this.numInDisplay.trim() === '') {
                             this.numInDisplay = "0";
                         }
                         this.decimalPressed = false;
                     } else {// normal deletion
-                        this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
+                        this.numInDisplay = this.numInDisplay.substring(0, this.numInDisplay.length - 1);
                     }
                 } else if (mtch.groups['epart'] !== undefined) {
                     alert("implement scientific notation!");
                 } else if (this.numInDisplay !== '0') {// normal deletion
-                    this.numInDisplay = this.numInDisplay.substring(0,this.numInDisplay.length-1);
+                    this.numInDisplay = this.numInDisplay.substring(0, this.numInDisplay.length - 1);
                 }
-                // eslint-disable-next-line no-constant-condition
-                if (true) return;
-
-                let there = this;
-                function removeLastDigit(num) {
-                    let numAsString = num.toString();
-                    // alert("num = "+num);
-                    let indexOfDecimal = numAsString.indexOf(".");
-                    if (indexOfDecimal > -1) {
-
-                        numAsString = numAsString.substr(0,numAsString.length-2);
-                    } else {
-                        numAsString = numAsString.substr(0,numAsString.length-1);
-
-                    }
-                    if(numAsString.indexOf(".") === numAsString.length-1) {
-                        numAsString = numAsString.substr(0,numAsString.length-1);
-
-                        there.decimalPressed = false;
-                        there.decimalMultiplier = .1;
-                    } else {
-                        if (numAsString.endsWith("+")) {
-                            numAsString = numAsString.substr(0, numAsString-2);
-                        } else {
-                            there.decimalMultiplier *= 10;
-                        }
-                        if (numAsString.indexOf("e")> -1) {
-                            there.eInNumInDisplay = true;
-                        }
-                    }
-                    if (numAsString === '') {
-                        numAsString = "0";
-                    }
-                    // alert("after == " + numAsString);
-                    return numAsString;
-                }
-              this.numInDisplay = removeLastDigit(this.numInDisplay);
-                if (!this.isSecondNumber) {
-                    this.firstNumber = parseFloat(this.numInDisplay);
-                } else {
-                    this.secondNumber = parseFloat(this.numInDisplay);
-                }
-                // alert('numInDisplay second = '+this.numInDisplay);
             },
             clickNumber(num) {
                 if (this.numInDisplay === '0') {
@@ -237,50 +190,13 @@
                 } else {
                     this.numInDisplay += num;
                 }
-                // alert("clicked a number!");
                 if (!this.isSecondNumber) {
                     this.firstNumber = parseFloat(this.numInDisplay);
-                    // alert('setting firstNumber == ' + this.firstNumber);
                 } else {
                     this.secondNumber = parseFloat(this.numInDisplay);
-                    // alert('setting secondNumber == '+ this.secondNumber);
-                }
-                // eslint-disable-next-line no-constant-condition
-                if (true) return;
-
-
-                if (!this.decimalPressed) {
-                    this.numInDisplay = (parseFloat(this.numInDisplay) * 10 + num).toString();
-
-                    if(this.numInDisplay.toString().indexOf("e")>-1) {
-                        this.eInNumInDisplay = true;
-
-                    }
-                } else {
-                    if(this.numInDisplay.toString().indexOf("e")>-1) {
-                        this.numInDisplay += this.numInDisplay.toString() + num;
-                        this.eInNumInDisplay = true;
-                        // alert('found e');
-                    } else {
-
-                        let number = parseFloat(this.numInDisplay) + num * this.decimalMultiplier;
-                        if (number === parseFloat(this.numInDisplay)) {
-                            this.numInDisplay = this.numInDisplay + '0';
-                        } else {
-                            this.numInDisplay = (number).toString();
-                        }
-                    }
-                    this.decimalMultiplier /= 10;
-                }
-                if (!this.isSecondNumber) {
-                    this.firstNumber = parseFloat(this.numInDisplay);
-                    // alert('setting firstNumber == ' + this.firstNumber);
-                } else {
-                    this.secondNumber = parseFloat(this.numInDisplay);
-                    // alert('setting secondNumber == '+ this.secondNumber);
                 }
             },
-        clickEquals(){
+            clickEquals() {
                 if (this.operator === '-') {
                     this.numInDisplay = (this.firstNumber - this.secondNumber).toString();
                 } else if (this.operator === '+') {
@@ -292,10 +208,9 @@
                 }
                 this.isSecondNumber = false;
                 this.firstNumber = parseFloat(this.numInDisplay);
-                if (this.numInDisplay.indexOf(".")>0) {
+                if (this.numInDisplay.indexOf(".") > 0) {
                     let countOfDigits = this.numInDisplay.split(".")[1].length;
-                    this.decimalMultiplier = 1.0 / Math.pow(10, countOfDigits+1);
-                    // alert("countOfDigits == "+countOfDigits);
+                    this.decimalMultiplier = 1.0 / Math.pow(10, countOfDigits + 1);
                     this.decimalPressed = true;
                 } else {
                     this.decimalPressed = false;
