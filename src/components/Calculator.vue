@@ -140,7 +140,6 @@
                 secondNumber: 0,
                 operator: '',
                 decimalPressed: false,
-                decimalMultiplier: .1,
                 isSecondNumber: false,
                 numInDisplay: "0",
                 eInNumInDisplay: false
@@ -148,13 +147,12 @@
         },
         methods: {
             setValue: function (value) {
-                // This function is called from the parent class to reset
+                // This function is called from the parent component to reset
                 // the calculator's values.
                 this.numInDisplay = value;
                 this.firstNumber = this.secondNumber = 0;
                 this.operator = '';
                 this.decimalPressed = false;
-                this.decimalMultiplier = .1;
                 this.isSecondNumber = false;
             },
             clickNegateNumberInDisplay() {
@@ -212,13 +210,7 @@
                 }
                 this.isSecondNumber = false;
                 this.firstNumber = parseFloat(this.numInDisplay);
-                if (this.numInDisplay.indexOf(".") > 0) {
-                    let countOfDigits = this.numInDisplay.split(".")[1].length;
-                    this.decimalMultiplier = 1.0 / Math.pow(10, countOfDigits + 1);
-                    this.decimalPressed = true;
-                } else {
-                    this.decimalPressed = false;
-                }
+                this.decimalPressed = this.numInDisplay.indexOf(".") > 0;
 
                 if (!this.isSecondNumber) {
                     this.firstNumber = parseFloat(this.numInDisplay);
@@ -240,7 +232,6 @@
                 this.operator = operator;
                 this.isSecondNumber = true;
                 this.numInDisplay = "0";
-                this.decimalMultiplier = 0.1;
                 this.decimalPressed = false;
             }
         }
